@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bd11240c-37cf-4b33-8ffe-3ef57768b3fd" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="JupyterTrust" id="760e1d4e-c368-4528-ae3f-33e0ab8ab7df" />
+  <component name="ProjectId" id="1gz22KMhZr84rSC9tfRz4jQ7lQ0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Data2/phoebe_env/bin/python2" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bd11240c-37cf-4b33-8ffe-3ef57768b3fd" name="Default Changelist" comment="" />
+      <created>1599102892195</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1599102892195</updated>
+      <workItem from="1599102893240" duration="2896000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="667" y="335" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599556522194">
+      <screen x="38" y="0" width="1882" height="1080" />
+    </state>
+    <state x="667" y="335" key="#com.intellij.fileTypes.FileTypeChooser/38.0.1882.1080@38.0.1882.1080" timestamp="1599556522194" />
+    <state x="767" y="294" key="FileChooserDialogImpl" timestamp="1599556551693">
+      <screen x="38" y="0" width="1882" height="1080" />
+    </state>
+    <state x="767" y="294" key="FileChooserDialogImpl/38.0.1882.1080@38.0.1882.1080" timestamp="1599556551693" />
+    <state x="787" y="436" key="Github.ShareDialog" timestamp="1599102910458">
+      <screen x="38" y="0" width="1882" height="1080" />
+    </state>
+    <state x="787" y="436" key="Github.ShareDialog/38.0.1882.1080@38.0.1882.1080" timestamp="1599102910458" />
+    <state x="683" y="197" key="RollbackChangesDialog" timestamp="1599102978571">
+      <screen x="38" y="0" width="1882" height="1080" />
+    </state>
+    <state x="683" y="197" key="RollbackChangesDialog/38.0.1882.1080@38.0.1882.1080" timestamp="1599102978571" />
+    <state x="465" y="171" key="SettingsEditor" timestamp="1599102953620">
+      <screen x="38" y="0" width="1882" height="1080" />
+    </state>
+    <state x="465" y="171" key="SettingsEditor/38.0.1882.1080@38.0.1882.1080" timestamp="1599102953620" />
+    <state x="579" y="272" key="Vcs.Push.Dialog.v2" timestamp="1599102989734">
+      <screen x="38" y="0" width="1882" height="1080" />
+    </state>
+    <state x="579" y="272" key="Vcs.Push.Dialog.v2/38.0.1882.1080@38.0.1882.1080" timestamp="1599102989734" />
+    <state x="1210" y="137" width="303" height="621" key="ftp.server.browser" timestamp="1599558540915">
+      <screen x="38" y="0" width="1882" height="1080" />
+    </state>
+    <state x="1210" y="137" width="303" height="621" key="ftp.server.browser/38.0.1882.1080@38.0.1882.1080" timestamp="1599558540915" />
+  </component>
+</project>
