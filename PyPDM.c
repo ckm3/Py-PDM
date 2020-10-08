@@ -98,17 +98,18 @@ This program is free software: you can redistribute it and/or modify
 
 /*---local data---*/
 
-static int nseg, debug, m0, bign = SC_MAX, write;
+static int nseg, debug, m0, bign = SC_MAX;
 static int seg_beg_i[MAXSEGS+1], seg_end_i[MAXSEGS+1], seg_pts[MAXSEGS+1];
 static double sum_all, data_mean, av_sig, sig_var, beta;
-static double delf, dt_avg, dt_min, segmn[MAXSEGS+1], seg_var[MAXSEGS+1], seg_var0[MAXSEGS+1];
+static double dt_avg, dt_min, segmn[MAXSEGS+1], seg_var[MAXSEGS+1], seg_var0[MAXSEGS+1];
+// static double delf, dt_avg, dt_min, segmn[MAXSEGS+1], seg_var[MAXSEGS+1], seg_var0[MAXSEGS+1];
 static double sumy2, sig02, sig2, theta, rscale;
 static double daty0[MAXDATP+1];
 static long dummy;           /*  for ran1  */
 
 /*--------------------------- prototypes ------------------------------------*/
 
-int pdm2( int ne, double datx[], double daty[], double sig[]);
+int pdm2( int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf);
 int p_sort( int n, double dat1[], double dat2[], double dat3[], int sgn );
 int i_sort( int n, int dat1[], double dat2[], int sgn );
 double inc_beta( double a, double b, double x );
@@ -123,8 +124,8 @@ static double sqrc( double x );
 static double mcurve( double phase );
 double bspl3( double z );
 static double table_interp( double x0, int n, double xt[], double yt[] );
-static int read_data_file( char *file, int title_lines );
-static int fgetline(FILE *fp, char *buffer, int max_len);
+// static int read_data_file( char *file, int title_lines );
+// static int fgetline(FILE *fp, char *buffer, int max_len);
 
 
 /*----these globals are provided for optional external control of the process----*/
@@ -166,7 +167,8 @@ int theta_dist[THMAX+1], tot_points;              /* numerical theta distributio
 double dtheta[THMAX+1];                           /* theta values for dist            */
 double theta_dist2[THMAX+1];                      /* theta_min distribution           */
 int tot_points2;                                  /* npoints for theta_min distr      */
-double f_min, f_max, theta2[MAXDATP+1];           /* final theta scan result          */
+// double f_min, f_max
+double theta2[MAXDATP+1];           /* final theta scan result          */
 int ran_array[MAXDATP+1];                         /* for Nemec significance test      */
 double ratio;                                     /*  1/(S/N ratio) from sigmas       */
 int nplot;                                        /* number of points in plot file    */
@@ -179,42 +181,51 @@ double mags[MAXDATP+1];
 double sigs[MAXDATP+1];
 
 /*---output arrays---*/
-double f_array[];
-double theta_array[];
+double* f_array;
+double* theta_array;
 
 int main(){
     // double x[350], y[350], s[350];
+    int i;
     printf("hello world\n");
 
-    for(int i=0; i<350; ++i){
+    for(i=0; i<350; ++i){
         times[i] = 20. / 350. * i;
         mags[i] = sin(times[i]);
         sigs[i] = 0.0;
-        // printf("%f, ", x[i]);
-        // printf("%f, ", y[i]);
-        // printf("%f, ", s[i]);
     }
 
-    pdm2(350, times, mags, sigs);
+    pdm2(350, times, mags, sigs, 0.01, 1, 0.001);
+    printf("nf is %d", nf);
+    for(i=0; i<nf; ++i){
+        printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
+    }
 
-
+    // free(f_array);
+    // free(theta_array);
     return 0;
 }
 
-int pdm2( int ne, double datx[], double daty[], double sig[])
-
-{
+int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf){
     int i, j, k, kk, bins, line_points, sub1_index, big_seg, big_pts, bin10, pts, ntot, pdv;
     int icurr, nb;
     double s2, s20, seg_x0[MAXSEGS+1], seg_xrange[MAXSEGS+1], sum, sum1, sum2, f, f1, th1, th2, phase, fslope;
     double tmp, tmp2, ymean, bin_mean0[MAXBINS+1], resid, sig0, signf0;
     double th0min[4], delbeta, beta0, ndof, theta_crit, hifact;
-    char *stp;
+    // char *stp;
     // char file[31];
     // FILE *fo, *fp, *fp2, *fb;
     
     // printf("Received root as %s from main\n",root);
     
+    nf = (int)((f_max - f_min)/delf + 1);
+
+    f_array = realloc(f_array, nf * sizeof(double));
+    theta_array = realloc(theta_array, nf * sizeof(double));
+
+    // f_array = f_array_larger;
+    // theta_array = theta_array_larger;
+
     if( ne <= 100 )  return -1; //pdm: too few points
     // if( pdm_debug )  debug = TRUE;
     
@@ -302,7 +313,7 @@ int pdm2( int ne, double datx[], double daty[], double sig[])
         if( !segdev )  segdev = 2.;
         if( !segset( ne, datx, daty, segdev ) ) return(0);
         
-        f_min = f_max = 0;
+        // f_min = f_max = 0;
         
         /*  write data file  */
         // sprintf(file,"%s_data.dat",root);
@@ -433,12 +444,12 @@ int pdm2( int ne, double datx[], double daty[], double sig[])
         // }
         
         /*  pick scan range  */
-        delf = 1./(line_points * trange);
-        f_min = delf;
-        f_max = 1. / (2. * dt_avg); 
+        // delf = 1./(line_points * trange);
+        // f_min = delf;
+        // f_max = 1. / (2. * dt_avg); 
         /*  check and use input params  */
-        if( minf0 )  f_min = fmax( delf, minf0 );
-        if( maxf0 )  f_max = maxf0;
+        // if( minf0 )  f_min = fmax( delf, minf0 );
+        // if( maxf0 )  f_max = maxf0;
         
         nf = (int)((f_max - f_min)/delf + 1);
         hifact = f_max * 2. * trange / ne;
@@ -558,7 +569,9 @@ int pdm2( int ne, double datx[], double daty[], double sig[])
             // if( debug ) fprintf( fo, "f=%g, s2=%g, ndof=%g, theta=%g\n", f, s2, ndof, theta);
             
             /* fprintf( fo, "f=%g  theta=%g\n", f, theta);  */
-            printf("f=%g  theta=%g\n", f, theta);
+            // printf("f=%g  theta=%g\n", f, theta);
+            f_array[icurr] = f;
+            theta_array[icurr] = theta;
             // fprintf( fp, "%g %g\n", f, theta );
             
             /*  save 3 minima  */
@@ -742,6 +755,11 @@ int pdm2( int ne, double datx[], double daty[], double sig[])
     // if( do_non_par ) {
     //     printf( "\n %d data distributions analyzed\n   theta distributions are in theta_dist.dat\n", nb );
     // }
+
+    // for(i=0; i<nf; ++i){
+    //     printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
+    // }
+
     return(1);
 }
 
@@ -994,9 +1012,9 @@ int segset( int ne, double datx[], double daty[], double segdev )
         dt_avg = dtsum / ndt;
         dt_min = dtmin;
     }
-    if( pdm_verbose ) {
-        fprintf( stdout, "\nAuto-Segmentation: segdev = %g,  nseg = %d,  dtrange = %g, dtavg = %g\n", segdev, nseg, dtrange, dtavg );
-    }
+    // if( pdm_verbose ) {
+        // fprintf( stdout, "\nAuto-Segmentation: segdev = %g,  nseg = %d,  dtrange = %g, dtavg = %g\n", segdev, nseg, dtrange, dtavg );
+    // }
     return(1);
 }
 
@@ -1258,22 +1276,22 @@ double ran1(long *idum)
 
 /*  old UNIX function to read a line of data  */
 
-int fgetline(FILE *fp, char *buffer, int max_len)
-{
-    int len, ch;
+// int fgetline(FILE *fp, char *buffer, int max_len)
+// {
+//     int len, ch;
     
-    ch = getc(fp);
-    if (ch == EOF)
-        return(EOF);
+//     ch = getc(fp);
+//     if (ch == EOF)
+//         return(EOF);
     
-    len = 0;
-    while (ch != '\n' && ch != EOF ) {
-        buffer[len] = ch;
-        len ++;
-        if (len >= max_len)
-            return(len);
-        ch = getc(fp);
-    }
-    buffer[len] = '\0';
-    return(len);
-}
+//     len = 0;
+//     while (ch != '\n' && ch != EOF ) {
+//         buffer[len] = ch;
+//         len ++;
+//         if (len >= max_len)
+//             return(len);
+//         ch = getc(fp);
+//     }
+//     buffer[len] = '\0';
+//     return(len);
+// }
