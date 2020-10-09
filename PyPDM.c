@@ -570,8 +570,9 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
             
             /* fprintf( fo, "f=%g  theta=%g\n", f, theta);  */
             // printf("f=%g  theta=%g\n", f, theta);
-            f_array[icurr] = f;
-            theta_array[icurr] = theta;
+            // printf("%d", icurr);
+            f_array[icurr-1] = f;
+            theta_array[icurr-1] = theta;
             // fprintf( fp, "%g %g\n", f, theta );
             
             /*  save 3 minima  */
