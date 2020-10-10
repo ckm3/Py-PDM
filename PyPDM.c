@@ -1129,7 +1129,7 @@ double table_interp( double x0, int n, double xt[], double yt[] )
     double tmp;
     int i;
     
-    if( x0 < xt[1] || x0 > xt[n] )  return -3; //error( "table_interp: value out of range" );
+    if( x0 < xt[1] || x0 > xt[n] )  return -1; //error( "table_interp: value out of range" );
     for( i = 1; i <= n-1; i++ ) {
         if( x0 > xt[i] && x0 < xt[i+1] ) break;
     }
