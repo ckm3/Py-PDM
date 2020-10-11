@@ -207,7 +207,8 @@ int main(){
 }
 
 int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf){
-    int i, j, k, kk, bins, line_points, sub1_index, big_seg, big_pts, bin10, pts, ntot, pdv;
+    int i, j, k, kk, bins, sub1_index, big_seg, big_pts, bin10, pts, ntot, pdv;
+    // int line_points;
     int icurr, nb;
     double s2, s20, seg_x0[MAXSEGS+1], seg_xrange[MAXSEGS+1], sum, sum1, sum2, f, f1, th1, th2, phase, fslope;
     double tmp, tmp2, ymean, bin_mean0[MAXBINS+1], resid, sig0, signf0;
@@ -235,7 +236,7 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
     theta_crit = (bin_10 ? 1. - 11./pow((double)ne,0.8) : 1. - 8/pow((double)ne,0.8));
     
     /*  theta array for distributions  */
-    for( i = 0; i <= THMAX; i++ )  dtheta[i] = 1.2*i/THMAX;
+    // for( i = 0; i <= THMAX; i++ )  dtheta[i] = 1.2*i/THMAX;
     
     /*----------beta scan option---(changing period)-----------*/
     
@@ -306,8 +307,8 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         
         p_sort( ne, datx, daty, sig, 1 );           /*  sort the data  */
         
-        if( lpoints )  line_points = lpoints;
-        else           line_points = LPOINTS;
+        // if( lpoints )  line_points = lpoints;
+        // else           line_points = LPOINTS;
         
         /*  set segments  */ 
         if( !segdev )  segdev = 2.;
