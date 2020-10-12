@@ -133,7 +133,7 @@ static double table_interp( double x0, int n, double xt[], double yt[] );
 /*----run params - can be set externally----*/
 /*    if zero, default values will be used  */
 int invert_curve = FALSE;                  /*  plot negative of curve                 */
-int lpoints = 10;                          /*  number of points to cover line         */
+// int lpoints = 10;                          /*  number of points to cover line         */
 double minf0, maxf0;                       /*  freq scan range                        */
 double segdev = 200;                       /*  sensitivity for segments (big->1 seg)  */
 double beta_min = -5, beta_max = 5;        /*  period change mode                     */
@@ -175,7 +175,7 @@ int nplot;                                        /* number of points in plot fi
 double ymin, ymax, yamp, ymean_mean, xmean;       /* mean curve parameters            */
 
 /*---data arrays---*/
-int Numdat;
+// int Numdat;
 double times[MAXDATP+1];
 double mags[MAXDATP+1];
 double sigs[MAXDATP+1];
