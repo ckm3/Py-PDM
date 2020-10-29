@@ -184,6 +184,9 @@ double sigs[MAXDATP+1];
 double* f_array;
 double* theta_array;
 
+/*---number of bins---*/
+int nbins; // use this number as the number of bins, it should be lower than the MAXBINS
+
 int main(){
     // double x[350], y[350], s[350];
     int i;
