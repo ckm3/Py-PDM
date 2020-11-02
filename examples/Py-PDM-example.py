@@ -1,4 +1,4 @@
-import pypdm
+from pdmpy import pdm
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,7 +7,7 @@ t = np.linspace(1, 20, 200)
 y = np.sin(t)
 s = np.zeros(t.size)
 
-freq, theta = pypdm.pdm(t, y, s, 0.01, 1, 0.001, 10)
+freq, theta = pdm(t, y, s, 0.01, 1, 0.001, 10)
 
 fig, (ax1, ax2) = plt.subplots(2, 1, constrained_layout=True)
 
