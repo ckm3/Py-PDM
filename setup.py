@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 from distutils.extension import Extension
 from Cython.Build import cythonize
 import numpy as np
@@ -9,7 +9,7 @@ extension = Extension(
     include_dirs=[np.get_include()]
 )
 setup(
-    name="pdmpy",
+    name="Py-PDM",
     version="0.1",
     author="Kaiming Cui",
     author_email="ckm@nao.cas.cn",
@@ -26,6 +26,6 @@ setup(
         "Topic :: Scientific/Engineering :: Astronomy",
         "Topic :: Scientific/Engineering :: Physics"],
     python_requires='>=3',
-    install_requires = ["numpy"],
+    install_requires = ["cython", "numpy"],
     ext_modules=cythonize([extension])
 )
