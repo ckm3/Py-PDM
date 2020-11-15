@@ -563,12 +563,12 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
                 }
             }
             /*  accumulate for distribution  */
-            if( do_dist ) {
-                i = (int)floor(theta*THMAX/1.2);
-                i = fmin( i, THMAX );
-                theta_dist[i]++;
-                tot_points++;
-            }
+            // if( do_dist ) {
+            //     i = (int)floor(theta*THMAX/1.2);
+            //     i = fmin( i, THMAX );
+            //     theta_dist[i]++;
+            //     tot_points++;
+            // }
             
             // if( debug ) fprintf( fo, "f=%g, s2=%g, ndof=%g, theta=%g\n", f, s2, ndof, theta);
             
