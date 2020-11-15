@@ -7,20 +7,20 @@ from libc.stdlib cimport free
 
 
 cdef extern from "PyPDM.c":
-    int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf)
+    int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf, int nbins)
     double* f_array
     double* theta_array
     int nf
 
 
-def pdm(np.ndarray times, np.ndarray mags, np.ndarray sigs, double f_min, double f_max, double delf):
+def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, double delf, int nbin):
     """
     The core function of the Phase Dispersion Minimization
 
     Parameters:
-        times : np.ndarray
-        mags : np.ndarray
-        sigs : np.ndarray
+        t : np.ndarray
+        y : np.ndarray
+        s : np.ndarray
             Sigma of each mag, if no sigma, it should be zeros
         f_min : double
             The minima of the frequency range
@@ -34,24 +34,34 @@ def pdm(np.ndarray times, np.ndarray mags, np.ndarray sigs, double f_min, double
         theta_array : np.ndarray
     """
 
-    if len(times)==len(mags)==len(sigs):
-        if times.ndim!=1:
-            raise ValueError('Invalid time series dimension')
+    if len(t)==len(y)==len(s):
+        if t.ndim!=1:
+            raise ValueError('Inputs (t, y, s) must be 1-dimensional')
         pass
     else:
         raise ValueError('Dimensions are not same of input parameters')
+
+    if f_min >= f_max:
+        raise ValueError('f_min should be less than f_max')
+    elif f_max < delf:
+        raise ValueError('delf should be less than f_max')
+
+    if nbin > 100:
+        raise ValueError('The max allowable bins are 100')
+    elif nbin <= 0:
+        raise ValueError('The number of bins should be greater than 0')
         
-    cdef int data_number = times.size
+    cdef int data_number = t.size
 
-    times_copy = times.copy()
-    mags_copy = mags.copy()
-    sigs_copy = sigs.copy()
+    t_copy = t.copy()
+    y_copy = y.copy()
+    sigs_copy = s.copy()
 
-    cdef double [::1] x2 = times_copy
-    cdef double [::1] y2 = mags_copy
+    cdef double [::1] x2 = t_copy
+    cdef double [::1] y2 = y_copy
     cdef double [::1] s2 = sigs_copy
 
-    return_code = pdm2(data_number, &x2[0], &y2[0], &s2[0], f_min, f_max, delf)
+    return_code = pdm2(data_number, &x2[0], &y2[0], &s2[0], f_min, f_max, delf, nbin)
 
     if return_code == 1:
         pass

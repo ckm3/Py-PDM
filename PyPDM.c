@@ -109,14 +109,14 @@ static long dummy;           /*  for ran1  */
 
 /*--------------------------- prototypes ------------------------------------*/
 
-int pdm2( int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf);
+int pdm2( int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf, int nbins);
 int p_sort( int n, double dat1[], double dat2[], double dat3[], int sgn );
 int i_sort( int n, int dat1[], double dat2[], int sgn );
 double inc_beta( double a, double b, double x );
 double rnd( void );
 double ran1(long *idum);
 
-static int binner( double datx[], double daty[], double sig[], double f, int bin10, int first, int last );
+static int binner( double datx[], double daty[], double sig[], double f, int bin10, int first, int last, int nbins);
 static double dophase( double tt, double t0, double tn, double f );
 static int segset( int ne, double datx[], double daty[], double segdev );
 static double sqrc( double x );
@@ -185,7 +185,7 @@ double* f_array;
 double* theta_array;
 
 /*---number of bins---*/
-int nbins; // use this number as the number of bins, it should be lower than the MAXBINS
+// int nbins=100; // use this number as the number of bins, it should be lower than the MAXBINS
 
 int main(){
     // double x[350], y[350], s[350];
@@ -198,7 +198,7 @@ int main(){
         sigs[i] = 0.0;
     }
 
-    pdm2(350, times, mags, sigs, 0.01, 1, 0.001);
+    pdm2(350, times, mags, sigs, 0.01, 1, 0.001, 100);
     printf("nf is %d", nf);
     for(i=0; i<nf; ++i){
         printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
@@ -209,7 +209,7 @@ int main(){
     return 0;
 }
 
-int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf){
+int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, double f_max, double delf, int nbins){
     int i, j, k, kk, bins, sub1_index, big_seg, big_pts, bin10, pts, ntot, pdv;
     // int line_points;
     int icurr, nb;
@@ -521,7 +521,7 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         icurr = 0;
         for( f = f_min, k = 0; f <= f_max + delf; f += delf ) {
             icurr++;
-            if( pdm_verbose )  printf( "===scan %d / %d frequency points===\r", icurr, nf );
+            // if( pdm_verbose )  printf( "===scan %d / %d frequency points===\r", icurr, nf );
             if( k ) {
                 th2 = th1;
                 th1 = theta;
@@ -534,9 +534,9 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
                 
                 /* fprintf( fo, "\nSEG %d   bin10 = %d\n", i, bin10 ); */
                 
-                binner( datx, daty, sig, f, bin10, seg_beg_i[i], seg_end_i[i] );
+                binner( datx, daty, sig, f, bin10, seg_beg_i[i], seg_end_i[i], nbins);
                 
-                for( j = 0; j <= 99; j++ ) {
+                for( j = 0; j <= nbins; j++ ) {
                     if( nbin[j] > 1 ) {        /*  bin statistics  */
                         bins++;
                         ndof += nbin[j]-1;
@@ -634,20 +634,20 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         
         // fprintf( fp2, "#Resid X\n" );
         
-        binner( datx, daty, sig, fthmin[1], bin10, seg_beg_i[big_seg], seg_end_i[big_seg] );
+        binner( datx, daty, sig, fthmin[1], bin10, seg_beg_i[big_seg], seg_end_i[big_seg], nbins);
         
         if( do_spline_fit && thmin[1] < theta_crit ) {
             /*  apply curvature corrections  - use for final mean curve only  */
             /*  will show on mean curve plot and improve residuals            */
             /*    equivalent to a converged Stobie iteration                  */
-            for( j = 0; j <= 100; j++ ) {
+            for( j = 0; j <= nbins; j++ ) {
                 bin_mean0[j] = bin_mean[j];
             }
-            for( j = 1; j <= 99; j++ ) {
+            for( j = 1; j <= nbins-1; j++ ) {
                 bin_mean[j] = (3.*bin_mean0[j] - 0.5*(bin_mean[j-1] + bin_mean[j+1])) / 2.;
             }
-            bin_mean[0] = (3.*bin_mean0[0] - 0.5*(bin_mean[99] + bin_mean[1])) / 2.;
-            bin_mean[100] = bin_mean[0];
+            bin_mean[0] = (3.*bin_mean0[0] - 0.5*(bin_mean[nbins-1] + bin_mean[1])) / 2.;
+            bin_mean[nbins] = bin_mean[0];
         }       
         /*------------- write data versus phase and residuals ------------------------*/
         /*  do for largest segment only to get meaningful data    */
@@ -687,9 +687,9 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         ymean_mean /= nplot;
         
         // fclose( fp );
-        if( pdm_verbose )  printf( "Phased data and mean curve written to pdmcurve.dat\n" );
+        // if( pdm_verbose )  printf( "Phased data and mean curve written to pdmcurve.dat\n" );
         // fclose( fp2 );
-        if( pdm_verbose )  printf( "Residuals written to residuals.dat\n" );
+        // if( pdm_verbose )  printf( "Residuals written to residuals.dat\n" );
         
         /*  distribution plot  */
         // if( do_dist ) {
@@ -842,7 +842,7 @@ double bspl3( double z )
 
 /*------- compute bin sums and numbers ----------------------------------------------*/
 
-int binner( double datx[], double daty[], double sig[], double f, int bin10, int first, int last )
+int binner( double datx[], double daty[], double sig[], double f, int bin10, int first, int last, int nbins)
 {
     double phase, t0, tn, sybin[MAXBINS+1], sumy2_dev[MAXBINS+1], ymean=0.; 
     double tmp, theta0, dev, dev0, bm1, bm2;
@@ -870,14 +870,33 @@ int binner( double datx[], double daty[], double sig[], double f, int bin10, int
         /*  (100,1) bins  */
         /* bins are 0->99, center of b0 at 0  */
         if( bin10 ) {
-            bin1 = (int)(100.*phase+0.5) % 100;
+            bin1 = (int)(nbins*phase+0.5) % nbins;
             nbin[bin1] += 1;
             sybin[bin1] += y(j);
         }
         /*  (50,2) bins)  */
         else {
-            bin1 = 2 * ((int)(50.*phase) % 50) + 1;   /*  odd bins  */
-            bin2 = 2 * ((int)(50.*phase+0.5) % 50);   /*  even bins  */
+            // bin1 = 2 * ((int)(50.*phase) % 50) + 1;   /*  odd bins  */
+            // bin2 = 2 * ((int)(50.*phase+0.5) % 50);   /*  even bins  */
+            // bin1 = ceil(phase/(1./nbins)) - 1;
+            // if (bin1&1) {
+            //     bin2 = bin1 + 1;
+            //     if(bin2==nbins) bin2=0;
+            // }
+            // else {
+            //     bin2 = bin1;
+            //     bin1--;
+            //     if(bin1==-1) bin1=1;
+            // }
+            if (nbins&1){
+                bin1 = 2 * ((int)(((nbins-1) / 2)*phase) % ((nbins-1) / 2)) + 1;
+                bin2 = 2 * ((int)(((nbins-1) / 2)*phase+0.5) % ((nbins-1) / 2));
+                if (bin1==nbins-2) bin2 = nbins - 1;
+            }
+            else{
+                bin1 = 2 * ((int)((nbins / 2)*phase) % (nbins / 2)) + 1;
+                bin2 = 2 * ((int)((nbins / 2)*phase+0.5) % (nbins / 2));
+            }
             nbin[bin1] += 1;
             sybin[bin1] += y(j);
             nbin[bin2] += 1;
@@ -886,14 +905,14 @@ int binner( double datx[], double daty[], double sig[], double f, int bin10, int
     }
     
     /*  compute bin means - bin 0 has at least 1 point  */
-    for( j = 0; j <= 99; j++ ) {
+    for( j = 0; j <= nbins; j++ ) {
         if( nbin[j] )  bin_mean[j] = sybin[j] / nbin[j];
     }
-    bin_mean[100] = bin_mean[0];
+    bin_mean[nbins] = bin_mean[0];
     /*  fix empty bins  */
-    for( j = 1; j <= 99; j++ ) {
+    for( j = 1; j <= nbins; j++ ) {
         if( !nbin[j] ) {
-            for( i = j+1; i <= 100; i++ ) {
+            for( i = j+1; i <= nbins; i++ ) {
                 if( nbin[i] ) {
                     bm1 = bin_mean[j-1];
                     bm2 = bin_mean[i];
@@ -926,7 +945,8 @@ int binner( double datx[], double daty[], double sig[], double f, int bin10, int
         else            tmp = 0.;
         /*  (100,1) bins  */
         if( bin10 ) {
-            bin1 = (int)(100.*phase+0.5) % 100;
+            bin1 = (int)(nbins*phase+0.5) % nbins;
+            // bin1 = (int)(100.*phase+0.5) % 100;
             if( !do_curve )  ymean = bin_mean[bin1];
             dev0 = fabs(y(j) - ymean);
             /*  note sigma correction here  */
@@ -935,9 +955,17 @@ int binner( double datx[], double daty[], double sig[], double f, int bin10, int
         }
         /*  (50,2) bins)  */
         else {
-            bin1 = 2 * ((int)(50.*phase) % 50) + 1;   /*  odd bins  */
-            bin2 = 2 * ((int)(50.*phase+0.5) % 50);   /*  even bins  */
-            
+            // bin1 = 2 * ((int)(50.*phase) % 50) + 1;   /*  odd bins  */
+            // bin2 = 2 * ((int)(50.*phase+0.5) % 50);   /*  even bins  */
+            if (nbins&1){
+                bin1 = 2 * ((int)(((nbins-1) / 2)*phase) % ((nbins-1) / 2)) + 1;
+                bin2 = 2 * ((int)(((nbins-1) / 2)*phase+0.5) % ((nbins-1) / 2));
+                if (bin1==nbins-2) bin2 = nbins - 1;
+            }
+            else{
+                bin1 = 2 * ((int)((nbins / 2)*phase) % (nbins / 2)) + 1;
+                bin2 = 2 * ((int)((nbins / 2)*phase+0.5) % (nbins / 2));
+            }
             if( !do_curve )  ymean = bin_mean[bin2];
             dev0 = fabs(y(j) - ymean);
             /*  note sigma correction here  */
@@ -956,7 +984,7 @@ int binner( double datx[], double daty[], double sig[], double f, int bin10, int
         //printf( "BIN1:  dev0=%g, dev=%g sig=%g\n", dev0, dev, sig[j] );
     }
     
-    for( j = 0; j <= 99; j++ ) {
+    for( j = 0; j <= nbins-1; j++ ) {
         if( nbin[j] > 1 )  bin_var[j] = sumy2_dev[j] / (nbin[j] - 1);
         else               bin_var[j] = 0.;
     }
