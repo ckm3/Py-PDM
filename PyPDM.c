@@ -580,43 +580,43 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
             // fprintf( fp, "%g %g\n", f, theta );
             
             /*  save 3 minima  */
-            if( th1 < theta && th1 < th2 ) {
-                f1 = f - delf;
-                if( debug )  printf( "min, f, th = %14.6e, %14.6e\n", f1, th1 );
-                if( th1 < thmin[3] ) {
-                    if( th1 > thmin[2] ) {
-                        thmin[3] = th0min[3] = th1;
-                        fthmin[3] = f1;
-                    }
-                    else if( th1 > thmin[1] ) {
-                        thmin[3] = thmin[2];
-                        th0min[3] = th0min[2];
-                        fthmin[3] = fthmin[2];
-                        thmin[2] = th0min[2] = th1;
-                        fthmin[2] = f1;
-                    }
-                    else {
-                        thmin[3] = thmin[2];
-                        th0min[3] = th0min[2];
-                        fthmin[3] = fthmin[2];
-                        thmin[2] = thmin[1];
-                        th0min[2] = th0min[1];
-                        fthmin[2] = fthmin[1];
-                        thmin[1] = th0min[1] = th1;
-                        fthmin[1] = f1;
-                    }
-                }
-            }
+            // if( th1 < theta && th1 < th2 ) {
+            //     f1 = f - delf;
+            //     if( debug )  printf( "min, f, th = %14.6e, %14.6e\n", f1, th1 );
+            //     if( th1 < thmin[3] ) {
+            //         if( th1 > thmin[2] ) {
+            //             thmin[3] = th0min[3] = th1;
+            //             fthmin[3] = f1;
+            //         }
+            //         else if( th1 > thmin[1] ) {
+            //             thmin[3] = thmin[2];
+            //             th0min[3] = th0min[2];
+            //             fthmin[3] = fthmin[2];
+            //             thmin[2] = th0min[2] = th1;
+            //             fthmin[2] = f1;
+            //         }
+            //         else {
+            //             thmin[3] = thmin[2];
+            //             th0min[3] = th0min[2];
+            //             fthmin[3] = fthmin[2];
+            //             thmin[2] = thmin[1];
+            //             th0min[2] = th0min[1];
+            //             fthmin[2] = fthmin[1];
+            //             thmin[1] = th0min[1] = th1;
+            //             fthmin[1] = f1;
+            //         }
+            //     }
+            // }
         }
         // fclose( fp );
         
         /*  accumulate for extreme value distribution  */
-        if( do_non_par ) {
-            i = (int)floor(thmin[1]*THMAX/1.2);
-            i = fmin( i, THMAX );
-            theta_dist2[i] += 1.;
-            tot_points2++;
-        }
+        // if( do_non_par ) {
+        //     i = (int)floor(thmin[1]*THMAX/1.2);
+        //     i = fmin( i, THMAX );
+        //     theta_dist2[i] += 1.;
+        //     tot_points2++;
+        // }
         
         /*--------------- write the final data sets -----------------------------*/
         
@@ -634,57 +634,57 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         
         // fprintf( fp2, "#Resid X\n" );
         
-        binner( datx, daty, sig, fthmin[1], bin10, seg_beg_i[big_seg], seg_end_i[big_seg], nbins);
+        // binner( datx, daty, sig, fthmin[1], bin10, seg_beg_i[big_seg], seg_end_i[big_seg], nbins);
         
-        if( do_spline_fit && thmin[1] < theta_crit ) {
-            /*  apply curvature corrections  - use for final mean curve only  */
-            /*  will show on mean curve plot and improve residuals            */
-            /*    equivalent to a converged Stobie iteration                  */
-            for( j = 0; j <= nbins; j++ ) {
-                bin_mean0[j] = bin_mean[j];
-            }
-            for( j = 1; j <= nbins-1; j++ ) {
-                bin_mean[j] = (3.*bin_mean0[j] - 0.5*(bin_mean[j-1] + bin_mean[j+1])) / 2.;
-            }
-            bin_mean[0] = (3.*bin_mean0[0] - 0.5*(bin_mean[nbins-1] + bin_mean[1])) / 2.;
-            bin_mean[nbins] = bin_mean[0];
-        }       
+        // if( do_spline_fit && thmin[1] < theta_crit ) {
+        //     /*  apply curvature corrections  - use for final mean curve only  */
+        //     /*  will show on mean curve plot and improve residuals            */
+        //     /*    equivalent to a converged Stobie iteration                  */
+        //     for( j = 0; j <= nbins; j++ ) {
+        //         bin_mean0[j] = bin_mean[j];
+        //     }
+        //     for( j = 1; j <= nbins-1; j++ ) {
+        //         bin_mean[j] = (3.*bin_mean0[j] - 0.5*(bin_mean[j-1] + bin_mean[j+1])) / 2.;
+        //     }
+        //     bin_mean[0] = (3.*bin_mean0[0] - 0.5*(bin_mean[nbins-1] + bin_mean[1])) / 2.;
+        //     bin_mean[nbins] = bin_mean[0];
+        // }       
         /*------------- write data versus phase and residuals ------------------------*/
         /*  do for largest segment only to get meaningful data    */
         
-        ymean_mean = 0.;
-        for( i = seg_beg_i[big_seg]; i <= seg_end_i[big_seg]; i++ ) {
-            if( y(i) == MISSING )  continue;
+        // ymean_mean = 0.;
+        // for( i = seg_beg_i[big_seg]; i <= seg_end_i[big_seg]; i++ ) {
+        //     if( y(i) == MISSING )  continue;
             
-            phase = dophase( x(i), x(seg_beg_i[big_seg]), x(seg_end_i[big_seg]), fthmin[1] );
+        //     phase = dophase( x(i), x(seg_beg_i[big_seg]), x(seg_end_i[big_seg]), fthmin[1] );
 
-            /*  compute mean curve  */
-            ymean = mcurve( phase );
-            resid = y(i) - ymean;
+        //     /*  compute mean curve  */
+        //     ymean = mcurve( phase );
+        //     resid = y(i) - ymean;
 
-            /* plot data at given phases  */
-            if( invert_curve ) {
-                tmp = -y(i);
-                ymean *= -1.;
-            }
-            else  tmp = y(i);
+        //     /* plot data at given phases  */
+        //     if( invert_curve ) {
+        //         tmp = -y(i);
+        //         ymean *= -1.;
+        //     }
+        //     else  tmp = y(i);
             
-			/*  mean curve parameters for Blazhko file  */
-            if( i == seg_beg_i[big_seg] )  ymin = ymax = ymean;
-            ymax = fmax( ymax, ymean);
-            ymin = fmin( ymin, ymean );
-            ymean_mean += ymean;
+		// 	/*  mean curve parameters for Blazhko file  */
+        //     if( i == seg_beg_i[big_seg] )  ymin = ymax = ymean;
+        //     ymax = fmax( ymax, ymean);
+        //     ymin = fmin( ymin, ymean );
+        //     ymean_mean += ymean;
             
-            tmp2 = sig[i];
+        //     tmp2 = sig[i];
             
-            // fprintf( fp, "%g %18.12g %g %g %d\n", phase, tmp, ymean, tmp2, i );
-            // fprintf( fp2, "%18.12g %g\n", x(i), resid );
-        }
-        /*  parameters for mean curve  */
-        yamp = ymax - ymin;
-        xmean = (x(seg_beg_i[big_seg])+x(seg_end_i[big_seg])) / 2.;
-        nplot = seg_end_i[big_seg] - seg_beg_i[big_seg] + 1;
-        ymean_mean /= nplot;
+        //     // fprintf( fp, "%g %18.12g %g %g %d\n", phase, tmp, ymean, tmp2, i );
+        //     // fprintf( fp2, "%18.12g %g\n", x(i), resid );
+        // }
+        // /*  parameters for mean curve  */
+        // yamp = ymax - ymin;
+        // xmean = (x(seg_beg_i[big_seg])+x(seg_end_i[big_seg])) / 2.;
+        // nplot = seg_end_i[big_seg] - seg_beg_i[big_seg] + 1;
+        // ymean_mean /= nplot;
         
         // fclose( fp );
         // if( pdm_verbose )  printf( "Phased data and mean curve written to pdmcurve.dat\n" );
@@ -709,31 +709,31 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         // }
         
         /*=======  compute significances here  =======*/
-        if( do_non_par && kk == nb ) {
-            tmp2 = 0.;
-            for(i = 0; i <= THMAX; i++ ) {
-                tmp2 += theta_dist2[i]/tot_points2;
-                theta_dist2[i] = tmp2;
-            }
-            for( i = 1; i <= 3; i++ ) {
-                signf[i] = table_interp( th0min[i], THMAX, dtheta, theta_dist2 );
-            }
-            // if( pdm_verbose )  fprintf( fo, "\nMinima: #    Theta     Frequency      Period    Signif(MC)\n" );
-        }
-        else {
-            for( i = 1; i <= 3; i++ ) {
-                sig0 = signif2( th0min[i] );
-                /*  apply bandwidth correction  */
-                //tmp = 2.*(float)nf/fmin(5,line_points);
-                //tmp = 10*dt_avg/dt_min;
-                //tmp2 = ne;
-                tmp = ne * hifact;
-                if( bin10 )  tmp *= 2.;          /*  from monte carlo results  */
-                signf[i] = 1. - pow( 1. - sig0, tmp); 
-                if( thmin[i] <= 0. )  thmin[i] = 0.;
-            }
-            // if( pdm_verbose )  fprintf( fo, "\nMinima: #    Theta     Frequency      Period     Signif(beta)\n" );
-        }
+        // if( do_non_par && kk == nb ) {
+        //     tmp2 = 0.;
+        //     for(i = 0; i <= THMAX; i++ ) {
+        //         tmp2 += theta_dist2[i]/tot_points2;
+        //         theta_dist2[i] = tmp2;
+        //     }
+        //     for( i = 1; i <= 3; i++ ) {
+        //         signf[i] = table_interp( th0min[i], THMAX, dtheta, theta_dist2 );
+        //     }
+        //     // if( pdm_verbose )  fprintf( fo, "\nMinima: #    Theta     Frequency      Period    Signif(MC)\n" );
+        // }
+        // else {
+        //     for( i = 1; i <= 3; i++ ) {
+        //         sig0 = signif2( th0min[i] );
+        //         /*  apply bandwidth correction  */
+        //         //tmp = 2.*(float)nf/fmin(5,line_points);
+        //         //tmp = 10*dt_avg/dt_min;
+        //         //tmp2 = ne;
+        //         tmp = ne * hifact;
+        //         if( bin10 )  tmp *= 2.;          /*  from monte carlo results  */
+        //         signf[i] = 1. - pow( 1. - sig0, tmp); 
+        //         if( thmin[i] <= 0. )  thmin[i] = 0.;
+        //     }
+        //     // if( pdm_verbose )  fprintf( fo, "\nMinima: #    Theta     Frequency      Period     Signif(beta)\n" );
+        // }
         
         /*=======  screen summary  =======*/
         // if( pdm_verbose ) {
