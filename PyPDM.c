@@ -1,5 +1,9 @@
-/* This is a modification of original pdm2b_4.41.c and */
-/* this code is used to generate a python wrapper with Cython. */
+// This is a modification of original pdm2b_4.41.c and 
+// this code is used to generate a python wrapper with Cython. 
+// - I have removed all the file inputs and outputs of the pdm2 function, 
+// and created "f_array" and "theta_array" as outputs; 
+// - I have added "f_min", "f_max", "del_f", and "nbins" as inputs to 
+// adjust the range and precision of frequency search.
 
 /*  pdm2.c - period analysis package  */
 /* $Id: pdm2.c,v 1.04 2009/12/08 01:19:42 rfs Exp rfs $  */
