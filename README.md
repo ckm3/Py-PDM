@@ -1,4 +1,4 @@
-# PDM-python-wrapper
+# Py-PDM
 
 A Python wrapper of the Phase Dispersion Minimization (PDM), which is a [C code written by Stellingwerf](https://www.stellingwerf.com/rfs-bin/index.cgi?action=PageView&id=34).
 
