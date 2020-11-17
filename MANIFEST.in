@@ -1,0 +1,4 @@
+include LICENSE README.md
+include src/Py-PDM/*.pyx
+include src/Py-PDM/PyPDM.c
+exclude examples/*
