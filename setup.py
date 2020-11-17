@@ -8,12 +8,45 @@ extension = Extension(
     sources=["src/Py-PDM/Py-PDM.pyx"],
     include_dirs=[np.get_include()]
 )
+
+part_of_readme = '''
+# Py-PDM
+
+A Python wrapper of the Phase Dispersion Minimization (PDM), which is a [C code written by Stellingwerf](https://www.stellingwerf.com/rfs-bin/index.cgi?action=PageView&id=34).
+
+Compared with other Python implementations, with the help of Cython, we can obtain a much faster PDM tool.
+
+# Installation
+To install Py-PDM with pip:
+
+```
+pip install py-pdm
+```
+
+Alternatively you can install it manually:
+```
+git clone https://github.com/ckm3/Py-PDM.git
+cd Py-PDM
+python setup.py install
+```
+
+# Usage
+```python3
+from pdmpy import pdm
+
+freq, theta = pdm(time, y_value, y_sigma, frequency_min, frequency_max, frequency_step, number_of_bins)
+```
+Please refer to the example directory to see in details.
+
+'''
+
 setup(
     name="Py-PDM",
     version="0.1",
     author="Kaiming Cui",
     author_email="ckm@nao.cas.cn",
     description="A Python wrapper of the Phase Dispersion Minimization (PDM)",
+    long_description=part_of_readme,
     packages=["Py-PDM"],
     package_dir={"": "src"},
     url="https://github.com/ckm3/Py-PDM",
