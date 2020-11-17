@@ -10,6 +10,8 @@ Compared with other Python implementations, with the help of Cython, we can obta
 *The red lines show the true frequency and its harmonics.*
 
 # Installation
+**Before installing, make sure you have already installed the cython and numpy in your environment.**
+
 To install Py-PDM with pip:
 
 ```
