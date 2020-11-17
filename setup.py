@@ -47,6 +47,7 @@ setup(
     author_email="ckm@nao.cas.cn",
     description="A Python wrapper of the Phase Dispersion Minimization (PDM)",
     long_description=part_of_readme,
+    long_description_content_type="text/markdown",
     packages=["Py-PDM"],
     package_dir={"": "src"},
     url="https://github.com/ckm3/Py-PDM",
