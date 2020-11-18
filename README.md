@@ -9,6 +9,11 @@ Compared with other Python implementations, with the help of Cython, we can obta
 ![Example result](/examples/Py-PDM-example.png)
 *The red lines show the true frequency and its harmonics.*
 
+# Performance
+Compared to the [Pure Python implementation of PDM](https://pyastronomy.readthedocs.io/en/latest/pyTimingDoc/pyPDMDoc/pdm.html) of ``PyAstronomy``:
+
+![Comparison result](/examples/Comparison.png)
+
 # Installation
 **Before installing, make sure you have already installed the cython and numpy in your environment.**
 
