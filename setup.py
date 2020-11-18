@@ -50,7 +50,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=["Py-PDM"],
     package_dir={"": "src"},
-    # include_package_data=True,
+    include_package_data=True,
     url="https://github.com/ckm3/Py-PDM",
     license="GPL-3.0",
     classifiers=[
