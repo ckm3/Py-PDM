@@ -16,7 +16,7 @@ Compared to the [Pure Python implementation of PDM](https://pyastronomy.readthed
 ![Comparison result](/examples/Comparison.png)
 
 # Installation
-**Before installing, make sure you have already installed the cython and numpy in your environment.**
+**Before installing, make sure you have already installed the cython and numpy in your Python3 environment.**
 
 To install Py-PDM with pip:
 
