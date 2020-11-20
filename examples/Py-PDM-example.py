@@ -3,7 +3,7 @@ from pdmpy import pdm
 import numpy as np
 import matplotlib.pyplot as plt
 
-t = np.linspace(1, 20, 200)
+t = np.linspace(0, 20, 191)
 y = np.sin(t)
 s = np.zeros(t.size)
 

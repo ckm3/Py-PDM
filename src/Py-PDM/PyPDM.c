@@ -108,7 +108,7 @@ static double sum_all, data_mean, av_sig, sig_var, beta;
 static double dt_avg, dt_min, segmn[MAXSEGS+1], seg_var[MAXSEGS+1], seg_var0[MAXSEGS+1];
 // static double delf, dt_avg, dt_min, segmn[MAXSEGS+1], seg_var[MAXSEGS+1], seg_var0[MAXSEGS+1];
 static double sumy2, sig02, sig2, theta, rscale;
-static double daty0[MAXDATP+1];
+// static double daty0[MAXDATP+1];
 static long dummy;           /*  for ran1  */
 
 /*--------------------------- prototypes ------------------------------------*/
@@ -137,7 +137,7 @@ static double table_interp( double x0, int n, double xt[], double yt[] );
 /*----run params - can be set externally----*/
 /*    if zero, default values will be used  */
 int invert_curve = FALSE;                  /*  plot negative of curve                 */
-// int lpoints = 10;                          /*  number of points to cover line         */
+// int lpoints = 10;                       /*  number of points to cover line         */
 double minf0, maxf0;                       /*  freq scan range                        */
 double segdev = 200;                       /*  sensitivity for segments (big->1 seg)  */
 double beta_min = -5, beta_max = 5;        /*  period change mode                     */
@@ -173,16 +173,16 @@ double theta_dist2[THMAX+1];                      /* theta_min distribution     
 int tot_points2;                                  /* npoints for theta_min distr      */
 // double f_min, f_max
 double theta2[MAXDATP+1];           /* final theta scan result          */
-int ran_array[MAXDATP+1];                         /* for Nemec significance test      */
+// int ran_array[MAXDATP+1];                         /* for Nemec significance test      */
 double ratio;                                     /*  1/(S/N ratio) from sigmas       */
 int nplot;                                        /* number of points in plot file    */
 double ymin, ymax, yamp, ymean_mean, xmean;       /* mean curve parameters            */
 
-/*---data arrays---*/
-// int Numdat;
-double times[MAXDATP+1];
-double mags[MAXDATP+1];
-double sigs[MAXDATP+1];
+// /*---data arrays---*/
+// // int Numdat;
+// double times[MAXDATP+1];
+// double mags[MAXDATP+1];
+// double sigs[MAXDATP+1];
 
 /*---output arrays---*/
 double* f_array;
@@ -193,16 +193,25 @@ double* theta_array;
 
 int main(){
     // double x[350], y[350], s[350];
+    /*---data arrays---*/
+    // int Numdat;
+    double times[MAXDATP+1];
+    double mags[MAXDATP+1];
+    double sigs[MAXDATP+1];
+    // double times[1990];
+    // double mags[1990];
+    // double sigs[1990];
     int i;
+
     printf("hello world\n");
 
-    for(i=0; i<350; ++i){
-        times[i] = 20. / 350. * i;
+    for(i=0; i<100; i++){
+        times[i] = 20. / 100. * i;
         mags[i] = sin(times[i]);
         sigs[i] = 0.0;
     }
 
-    pdm2(350, times, mags, sigs, 0.01, 1, 0.001, 100);
+    pdm2(100, times, mags, sigs, 0.1, 1, 0.1, 13);
     printf("nf is %d", nf);
     for(i=0; i<nf; ++i){
         printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
@@ -234,7 +243,8 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
     // f_array = f_array_larger;
     // theta_array = theta_array_larger;
 
-    if( ne <= 100 )  return -1; //pdm: too few points
+    if( ne <= 100 )  return -1; //pdm: too few data points
+    if( ne > MAXDATP) return -2; //pdm: too many data points
     // if( pdm_debug )  debug = TRUE;
     
     // fo = stdout; 

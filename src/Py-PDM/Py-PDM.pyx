@@ -21,7 +21,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import numpy as np
 cimport numpy as np
 np.import_array()
-from libc.stdlib cimport free
 
 
 cdef extern from "PyPDM.c":
@@ -71,9 +70,9 @@ def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, do
         
     cdef int data_number = t.size
 
-    t_copy = t.copy()
-    y_copy = y.copy()
-    sigs_copy = s.copy()
+    t_copy = np.insert(t, 0, 0).copy()
+    y_copy = np.insert(y, 0, 0).copy()
+    sigs_copy = np.insert(s, 0, 0).copy()
 
     cdef double [::1] x2 = t_copy
     cdef double [::1] y2 = y_copy
@@ -84,10 +83,14 @@ def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, do
     if return_code == 1:
         pass
     elif return_code == -1:
-        raise ValueError('pdm: too few points, 100 points at least.')
+        raise ValueError('pdm: too few data points, 100 points at least.')
+    elif return_code == -2:
+        raise ValueError('pdm: too many data points, maximum of 100,000 points allowed.')
+
 
     freq_np_array = np.asarray(<double[:nf]> f_array)
     theta_np_array = np.asarray(<double[:nf]> theta_array)
 
     return freq_np_array, theta_np_array
+
 
