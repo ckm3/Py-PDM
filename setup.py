@@ -42,7 +42,7 @@ extension = Extension(
 
 setup(
     name="Py-PDM",
-    version="0.2",
+    version="0.3",
     author="Kaiming Cui",
     author_email="ckm@nao.cas.cn",
     description="A Python wrapper of the Phase Dispersion Minimization (PDM)",
