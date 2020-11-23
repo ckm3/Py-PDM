@@ -188,6 +188,9 @@ double ymin, ymax, yamp, ymean_mean, xmean;       /* mean curve parameters      
 double* f_array;
 double* theta_array;
 
+// double f_array[100];
+// double theta_array[100];
+
 /*---number of bins---*/
 // int nbins=100; // use this number as the number of bins, it should be lower than the MAXBINS
 
@@ -205,16 +208,17 @@ int main(){
 
     printf("hello world\n");
 
-    for(i=0; i<100; i++){
-        times[i] = 20. / 100. * i;
+    for(i=0; i<1000; i++){
+        times[i] = 20. / 1000. * i;
         mags[i] = sin(times[i]);
         sigs[i] = 0.0;
     }
 
-    pdm2(100, times, mags, sigs, 0.1, 1, 0.1, 13);
+    pdm2(1000, times, mags, sigs, 1, 12.9, 3, 13);
     printf("nf is %d", nf);
     for(i=0; i<nf; ++i){
-        printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
+        if (i == 0) printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
+        else if (i == 3) printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
     }
 
     // free(f_array);
@@ -237,8 +241,11 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
     
     nf = (int)((f_max - f_min)/delf + 1);
 
-    f_array = realloc(f_array, nf * sizeof(double));
-    theta_array = realloc(theta_array, nf * sizeof(double));
+    f_array = (double *)malloc(nf * sizeof(double));
+    theta_array = (double *)malloc(nf * sizeof(double));
+
+    // f_array = realloc(f_array, nf * sizeof(double));
+    // theta_array = realloc(theta_array, nf * sizeof(double));
 
     // f_array = f_array_larger;
     // theta_array = theta_array_larger;
@@ -469,7 +476,7 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         // if( minf0 )  f_min = fmax( delf, minf0 );
         // if( maxf0 )  f_max = maxf0;
         
-        nf = (int)((f_max - f_min)/delf + 1);
+        // nf = (int)((f_max - f_min)/delf + 1);
         hifact = f_max * 2. * trange / ne;
         
         fslope = (nf-1.) / (f_max-f_min);
@@ -533,7 +540,7 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         }
         
         icurr = 0;
-        for( f = f_min, k = 0; f <= f_max + delf; f += delf ) {
+        for( f = f_min, k = 0; f <= f_max; f += delf ) {
             icurr++;
             // if( pdm_verbose )  printf( "===scan %d / %d frequency points===\r", icurr, nf );
             if( k ) {
@@ -591,6 +598,7 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
             // printf("%d", icurr);
             f_array[icurr-1] = f;
             theta_array[icurr-1] = theta;
+            // if (icurr >= nf) printf("icurr is %d, k is %d ", icurr, k);
             // fprintf( fp, "%g %g\n", f, theta );
             
             /*  save 3 minima  */

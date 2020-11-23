@@ -87,7 +87,6 @@ def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, do
     elif return_code == -2:
         raise ValueError('pdm: too many data points, maximum of 100,000 points allowed.')
 
-
     freq_np_array = np.asarray(<double[:nf]> f_array)
     theta_np_array = np.asarray(<double[:nf]> theta_array)
 
