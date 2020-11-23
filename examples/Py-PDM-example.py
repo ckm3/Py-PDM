@@ -8,7 +8,6 @@ y = np.sin(t)
 s = np.zeros(t.size)
 
 freq, theta = pdm(t, y, s, 0.01, 1-0.001, 0.00001, 10)
-print(freq[0], freq[-1], freq.size)
 
 fig, (ax1, ax2) = plt.subplots(2, 1, constrained_layout=True)
 
