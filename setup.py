@@ -62,6 +62,6 @@ setup(
         "Topic :: Scientific/Engineering :: Physics"],
     python_requires='>=3',
     setup_requires=["cython", "numpy"],
-    install_requires = ["numpy"],
+    install_requires = ["cython", "numpy"],
     ext_modules=cythonize([extension])
 )
