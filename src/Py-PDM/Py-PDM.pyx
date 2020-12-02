@@ -51,6 +51,10 @@ def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, do
         theta_array : np.ndarray
     """
 
+    t = np.ascontiguousarray(t, dtype=np.float64)
+    y = np.ascontiguousarray(y, dtype=np.float64)
+    s = np.ascontiguousarray(s, dtype=np.float64)
+
     if len(t)==len(y)==len(s):
         if t.ndim!=1:
             raise ValueError('Inputs (t, y, s) must be 1-dimensional')
