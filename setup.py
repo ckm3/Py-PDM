@@ -37,6 +37,7 @@ Please refer to the example directory to see in details.
 extension = Extension(
     name="pdmpy",
     sources=["src/Py-PDM/Py-PDM.pyx"],
+    extra_compile_args=['-O3'],
     include_dirs=[np.get_include()]
 )
 
