@@ -36,15 +36,19 @@ def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, do
 
     Parameters:
         t : np.ndarray
+            Input time array
         y : np.ndarray
+            Input value array
         s : np.ndarray
-            Sigma of each mag, if no sigma, it should be zeros
+            Sigma of each y, if no sigma, it should be zeros
         f_min : double
             The minima of the frequency range
         f_max : double
             The maxima of the frequency range
         delf : double
             Delta frequency
+        nbins : int
+            The number of bins
 
     Returns:
         frequency_array : np.ndarry
