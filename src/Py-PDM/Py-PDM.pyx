@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 import numpy as np
+import warnings
 cimport numpy as np
 np.import_array()
 
@@ -75,25 +76,32 @@ def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, do
         raise ValueError('The max allowable bins are 100')
     elif nbin <= 0:
         raise ValueError('The number of bins should be greater than 0')
-        
-    cdef int data_number = t.size
 
-    t_copy = np.insert(t, 0, 0).copy()
-    y_copy = np.insert(y, 0, 0).copy()
-    sigs_copy = np.insert(s, 0, 0).copy()
+    stacked_array = np.vstack((t, y, s))
+
+    if ~np.isfinite(stacked_array).all():
+        warnings.warn("The input arrays contain some NaNs or Infinites, pdm will ignore those points", RuntimeWarning)
+        stacked_array = stacked_array[:, np.isfinite(stacked_array).all(axis=0)]
+        
+    # Add zero at the begining because the one-based number of C source code
+    t_copy = np.insert(stacked_array[0, :], 0, 0).copy()
+    y_copy = np.insert(stacked_array[1, :], 0, 0).copy()
+    sigs_copy = np.insert(stacked_array[2, :], 0, 0).copy()
 
     cdef double [::1] x2 = t_copy
     cdef double [::1] y2 = y_copy
     cdef double [::1] s2 = sigs_copy
+
+    cdef int data_number = stacked_array.shape[1]
 
     return_code = pdm2(data_number, &x2[0], &y2[0], &s2[0], f_min, f_max, delf, nbin)
 
     if return_code == 1:
         pass
     elif return_code == -1:
-        raise ValueError('pdm: too few data points, 100 points at least.')
+        raise ValueError('pdm: too few data points, 100 points at least')
     elif return_code == -2:
-        raise ValueError('pdm: too many data points, maximum of 100,000 points allowed.')
+        raise ValueError('pdm: too many data points, maximum of 100,000 points allowed')
 
     freq_np_array = np.asarray(<double[:nf]> f_array)
     theta_np_array = np.asarray(<double[:nf]> theta_array)
