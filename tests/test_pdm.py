@@ -49,3 +49,17 @@ def test_pdm_results():
     main_freq = freq[np.argmin(theta)]
 
     assert np.isclose(main_freq, 1/2/np.pi, atol=0.01), "The pdm's main result is wrong"
+
+
+def test_oversize_nf():
+    # Test a bug example from my work
+    f_min = 0.0484048455605956
+    f_max = 0.2004645119176182
+    df = (0.2004645119176182 - 0.0484048455605956)/1e2
+
+    t = np.linspace(0, 20, 199)
+    y = np.sin(t)
+    s = np.zeros(t.size)
+    freq, theta = pdm(t, y, s, f_min, f_max, df, 10)
+    
+    assert (freq > f_min) & np.isclose(freq[-1], freq[-2], atol=df), "The size of freq is above the range of nf"

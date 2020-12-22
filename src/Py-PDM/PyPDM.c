@@ -214,11 +214,12 @@ int main(){
         sigs[i] = 0.0;
     }
 
-    pdm2(1000, times, mags, sigs, 1, 12.9, 3, 13);
+    // pdm2(1000, times, mags, sigs, 1, 12.9, 3, 13);
+    pdm2(1000, times, mags, sigs, 0.0484048455605956, 0.2004645119176182, (0.2004645119176182 - 0.0484048455605956)/1e2, 10);
     printf("nf is %d", nf);
     for(i=0; i<nf; ++i){
         if (i == 0) printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
-        else if (i == 3) printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
+        else if (i == 100) printf(" f: %f, theta: %f", f_array[i], theta_array[i]);
     }
 
     // free(f_array);
@@ -540,7 +541,7 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
         }
         
         icurr = 0;
-        for( f = f_min, k = 0; f <= f_max; f += delf ) {
+        for( f = f_min, k = 0; icurr < nf; f += delf ) {
             icurr++;
             // if( pdm_verbose )  printf( "===scan %d / %d frequency points===\r", icurr, nf );
             if( k ) {
