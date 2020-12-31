@@ -61,5 +61,7 @@ def test_oversize_nf():
     y = np.sin(t)
     s = np.zeros(t.size)
     freq, theta = pdm(t, y, s, f_min, f_max, df, 10)
-    
-    assert (freq > f_min) & np.isclose(freq[-1], freq[-2], atol=df), "The size of freq is above the range of nf"
+    main_freq = freq[np.argmin(theta)]
+
+    assert np.isclose(main_freq, 1/2/np.pi, atol=0.01), "The pdm's main result is wrong"
+    assert np.isclose(abs(freq[-1] - freq[-2]), df, rtol=1e-8), "The size of freq is above the range of nf"
