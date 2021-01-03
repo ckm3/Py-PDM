@@ -69,7 +69,7 @@ def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, do
 
     if f_min >= f_max:
         raise ValueError('f_min should be less than f_max')
-    elif f_max < delf:
+    elif f_max <= delf:
         raise ValueError('delf should be less than f_max')
 
     if nbin > 100:

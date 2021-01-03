@@ -18,6 +18,41 @@ def test_pdm_inputs():
 
     with pytest.raises(ValueError, match="pdm: too few data points, 100 points at least"):
         pdm(t0, y0, s0, 0.01, 1, 0.00001, 10)
+    
+    # - Test points more than 100,000
+    t0 = np.linspace(0, 20, 199999)
+    y0 = np.sin(t0)
+    s0 = np.zeros(t0.size)
+
+    with pytest.raises(ValueError, match="pdm: too many data points, maximum of 100,000 points allowed"):
+        pdm(t0, y0, s0, 0.01, 1, 0.00001, 10)
+
+    # - Test different length of data
+    t1 = t[:-2]
+    with pytest.raises(ValueError, match='Dimensions are not same of input parameters'):
+        pdm(t1, y, s, 0.01, 1, 0.00001, 10)
+
+    # - Test different dimension of data
+    t2 = t.reshape(199,-1)
+    with pytest.raises(ValueError, match=r'.* must be 1-dimensional'):
+        pdm(t2, y, s, 0.01, 1, 0.00001, 10)
+    
+    # - Test frequency inputs
+    with pytest.raises(ValueError, match='f_min should be less than f_max'):
+        pdm(t, y, s, 0.01 + 1, 1, 0.00001, 10)
+
+    with pytest.raises(ValueError, match='delf should be less than f_max'):
+        pdm(t, y, s, 0.01, 1, 1, 10)
+
+    with pytest.raises(ValueError, match='f_min should be less than f_max'):
+        pdm(t, y, s, 0.01 + 1, 1, 1, 10)
+    
+    # - Test number of bins
+    with pytest.raises(ValueError, match='The max allowable bins are 100'):
+        pdm(t, y, s, 0.01, 1, 0.1, 101)
+
+    with pytest.raises(ValueError, match='The number of bins should be greater than 0'):
+        pdm(t, y, s, 0.01, 1, 0.1, -101)
 
     # - Test input ndarrays contain NaNs and Infinites
     t[5] = np.NaN
@@ -25,8 +60,10 @@ def test_pdm_inputs():
     s[3] = -np.inf
 
     with pytest.warns(RuntimeWarning, match="The input arrays contain some NaNs or Infinites, pdm will ignore those points"):
-        pdm(t, y, s, 0.01, 1, 0.00001, 10)
-
+        freq, theta = pdm(t, y, s, 0.01, 1, 0.00001, 10)
+    
+    main_freq = freq[np.argmin(theta)]
+    assert np.isclose(main_freq, 1/2/np.pi, atol=0.01), "The pdm's main result is wrong"
 
     # - Test input data type
     t = 'test_string'
@@ -35,9 +72,6 @@ def test_pdm_inputs():
 
     with pytest.raises(TypeError):
         pdm(t, y, s, 0.01, 1, 0.00001, 10)
-
-
-    # - Test different length of data
 
 
 def test_pdm_results():
