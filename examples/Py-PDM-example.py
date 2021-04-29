@@ -3,9 +3,14 @@ from pdmpy import pdm
 import numpy as np
 import matplotlib.pyplot as plt
 
+import pandas as pd
+
+
 t = np.linspace(0, 20, 199)
 y = np.sin(t)
 s = np.zeros(t.size)
+
+t = pd.DataFrame(t)
 
 freq, theta = pdm(t, y, s, 0.01, 1-0.001, 0.00001, 10)
 

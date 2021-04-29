@@ -31,7 +31,7 @@ cdef extern from "PyPDM.c":
     int nf
 
 
-def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, double delf, int nbin):
+def pdm(t, y, s=None, double f_min=0, double f_max=1, double delf=0.1, int nbin=10):
     """
     The core function of the Phase Dispersion Minimization
 
@@ -58,6 +58,10 @@ def pdm(np.ndarray t, np.ndarray y, np.ndarray s, double f_min, double f_max, do
 
     t = np.ascontiguousarray(t, dtype=np.float64)
     y = np.ascontiguousarray(y, dtype=np.float64)
+
+    if s is None:
+        s = np.zeros(len(y))
+
     s = np.ascontiguousarray(s, dtype=np.float64)
 
     if len(t)==len(y)==len(s):
