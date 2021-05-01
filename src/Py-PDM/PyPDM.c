@@ -172,8 +172,8 @@ double dtheta[THMAX+1];                           /* theta values for dist      
 double theta_dist2[THMAX+1];                      /* theta_min distribution           */
 int tot_points2;                                  /* npoints for theta_min distr      */
 // double f_min, f_max
-double theta2[MAXDATP+1];           /* final theta scan result          */
-// int ran_array[MAXDATP+1];                         /* for Nemec significance test      */
+// double theta2[MAXDATP+1];                      /* final theta scan result          */
+// int ran_array[MAXDATP+1];                      /* for Nemec significance test      */
 double ratio;                                     /*  1/(S/N ratio) from sigmas       */
 int nplot;                                        /* number of points in plot file    */
 double ymin, ymax, yamp, ymean_mean, xmean;       /* mean curve parameters            */
@@ -187,6 +187,7 @@ double ymin, ymax, yamp, ymean_mean, xmean;       /* mean curve parameters      
 /*---output arrays---*/
 double* f_array;
 double* theta_array;
+double* theta2;
 
 // double f_array[100];
 // double theta_array[100];
@@ -208,8 +209,8 @@ int main(){
 
     printf("hello world\n");
 
-    for(i=0; i<1000; i++){
-        times[i] = 20. / 1000. * i;
+    for(i=0; i<200; i++){
+        times[i] = 20. / 200. * i;
         mags[i] = sin(times[i]);
         sigs[i] = 0.0;
     }
@@ -244,6 +245,7 @@ int pdm2(int ne, double datx[], double daty[], double sig[], double f_min, doubl
 
     f_array = (double *)malloc(nf * sizeof(double));
     theta_array = (double *)malloc(nf * sizeof(double));
+    theta2 = (double *)malloc((nf + 1) * sizeof(double));
 
     // f_array = realloc(f_array, nf * sizeof(double));
     // theta_array = realloc(theta_array, nf * sizeof(double));

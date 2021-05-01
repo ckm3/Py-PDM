@@ -36,11 +36,11 @@ def pdm(t, y, s=None, double f_min=0, double f_max=1, double delf=0.1, int nbin=
     The core function of the Phase Dispersion Minimization
 
     Parameters:
-        t : np.ndarray
+        t : array like
             Input time array
-        y : np.ndarray
+        y : array like
             Input value array
-        s : np.ndarray
+        s : array like
             Sigma of each y, if no sigma, it should be zeros
         f_min : double
             The minima of the frequency range
@@ -48,7 +48,7 @@ def pdm(t, y, s=None, double f_min=0, double f_max=1, double delf=0.1, int nbin=
             The maxima of the frequency range
         delf : double
             Delta frequency
-        nbins : int
+        nbin : int
             The number of bins
 
     Returns:
