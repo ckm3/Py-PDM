@@ -31,27 +31,29 @@ cdef extern from "PyPDM.c":
     int nf
 
 
-def pdm(t, y, s=None, double f_min=0, double f_max=1, double delf=0.1, int nbin=10):
+def pdm(t, y, s=None, f_min=0, f_max=1, delf=0.1, nbin=10):
     """
     The core function of the Phase Dispersion Minimization
 
-    Parameters:
-        t : array like
-            Input time array
-        y : array like
-            Input value array
-        s : array like
-            Sigma of each y, if no sigma, it should be zeros
-        f_min : double
-            The minima of the frequency range
-        f_max : double
-            The maxima of the frequency range
-        delf : double
-            Delta frequency
-        nbin : int
-            The number of bins
+    Parameters
+    ----------
+    t : array like
+        Input time array
+    y : array like
+        Input value array
+    s : array like
+        Sigma of each y, if no sigma, it should be zeros
+    f_min : double
+        The minima of the frequency range
+    f_max : double
+        The maxima of the frequency range
+    delf : double
+        Delta frequency
+    nbin : int
+        The number of bins
 
-    Returns:
+    Returns
+    -----------
         frequency_array : np.ndarry
         theta_array : np.ndarray
     """
