@@ -38,7 +38,7 @@ from pdmpy import pdm
 
 freq, theta = pdm(time, y_value, y_sigma, frequency_min, frequency_max, frequency_step, number_of_bins)
 ```
-Please refer to the [documentation](py-pdm.readthedocs.io) to see in details.
+Please refer to the [documentation](https://py-pdm.readthedocs.io) to see in details.
 
 # Citing
 If you find Py-PDM useful in your research, please cite the orginal paper [Stellingwerf, Astrophysical Journal, v224, p953, 1978](https://ui.adsabs.harvard.edu/abs/1978ApJ...224..953S/abstract) and add a footnote of this Github repository.
