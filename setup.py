@@ -31,7 +31,7 @@ from pdmpy import pdm
 
 freq, theta = pdm(time, y_value, y_sigma, frequency_min, frequency_max, frequency_step, number_of_bins)
 ```
-Please refer to the example directory to see in details.
+Please refer to the [documentation](https://py-pdm.readthedocs.io) to see in details.
 """
 
 extension = Extension(
