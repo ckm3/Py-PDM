@@ -1,6 +1,6 @@
 # Py-PDM
 
-[![image](http://img.shields.io/pypi/v/Py-PDM.svg)](https://pypi.python.org/pypi/Py-PDM/) [![Documentation Status](https://readthedocs.org/projects/py-pdm/badge/?version=latest)](https://py-pdm.readthedocs.io/en/latest/?badge=latest)
+[![image](http://img.shields.io/pypi/v/Py-PDM.svg)](https://pypi.python.org/pypi/Py-PDM/) [![Documentation Status](https://readthedocs.org/projects/py-pdm/badge/?version=latest)](https://py-pdm.readthedocs.io/en/latest/?badge=latest) [![CI](https://github.com/ckm3/Py-PDM/actions/workflows/main.yml/badge.svg)](https://github.com/ckm3/Py-PDM/actions/workflows/main.yml) ![GitHub](https://img.shields.io/github/license/ckm3/Py-PDM)
       
 
 A Python wrapper of the Phase Dispersion Minimization (PDM), which is a [C code written by Stellingwerf](https://www.stellingwerf.com/rfs-bin/index.cgi?action=PageView&id=34).
