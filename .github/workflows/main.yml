@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel
-        pip install pytest, cython, numpy, matplotlib
+        pip install pytest cython numpy matplotlib
     - name: Install package
       run: |
         python setup.py install
