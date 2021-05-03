@@ -54,8 +54,8 @@ def pdm(t, y, s=None, f_min=0, f_max=1, delf=0.1, nbin=10):
 
     Returns
     -----------
-        frequency_array : np.ndarry
-        theta_array : np.ndarray
+    frequency_array : np.ndarry
+    theta_array : np.ndarray
     """
 
     t = np.ascontiguousarray(t, dtype=np.float64)
