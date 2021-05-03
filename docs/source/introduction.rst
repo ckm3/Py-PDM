@@ -5,7 +5,7 @@ Introduction
 
 Compared with other Python implementations, with the help of Cython, we can obtain a much faster PDM tool.
 
-As an example, we can create a sinsoidal tiem series with period = :math:`2\pi`:
+As an example, we can create a sinsoidal time series with period = :math:`2\pi`:
 
 .. code-block:: python
 
@@ -22,7 +22,7 @@ Then we can calculate the PDM with ``Py-PDM``
    >>> print(f'Period is {1 / freq[np.argmin(theta)]:.3f}')
    # Period is 6.289
 
-You can also plot the freq vs theta to find the minima.
+We can also plot the freq vs theta to find the minima.
 
 .. code-block:: python
 
