@@ -110,3 +110,11 @@ def test_large_number_frequencies():
     main_freq = freq[np.argmin(theta)]
 
     assert np.isclose(main_freq, 1/2/np.pi, atol=0.01), "The pdm's main result is wrong"
+
+def test_plot():
+    import matplotlib.pyplot as plt
+    t = np.linspace(0, 20, 199)
+    y = np.sin(t)
+    freq, theta = pdm(t, y, f_min=0.01, f_max=1, delf=0.001)
+    plt.plot(freq, theta)
+
